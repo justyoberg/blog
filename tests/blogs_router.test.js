@@ -51,6 +51,33 @@ test('blogs can be posted', async () => {
   )
 })
 
+test('id property is not called _id', async () => {
+  const blogs = await testHelper.blogsInDb()
+  
+  for (let blog of blogs) {
+    expect(blog.id).toBeDefined()
+    expect(blog._id).toBe(undefined)
+  }
+})
+
+test('likes default to 0 if missing from request', async () => {
+  const missingLikes = {
+    title: "Missing the likes!",
+    author: "Justy Oberg",
+    url: "N/A",
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(missingLikes)
+    .expect(201)
+  
+  const blogs = await testHelper.blogsInDb()
+
+  expect(blogs).toHaveLength(testHelper.blogs.length + 1)
+  expect(blogs[blogs.length - 1].likes).toBe(0)
+})
+
 afterAll(async () => {
   await mongoose.connection.close()
 })

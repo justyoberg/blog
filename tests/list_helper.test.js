@@ -18,7 +18,7 @@ describe('total likes', () => {
   test('array of 5 blogs to equal 36', () => {
     const result = listHelper.totalLikes(testHelper.blogs)
 
-    expect(result).toBe(36)
+    expect(result).toBe(42)
   })
 })
 
@@ -66,12 +66,12 @@ describe('most likes', () => {
     expect(result).toBe(null)
   })
   
-  test('expect to return Edsger W. Dijkstra with 17 likes', () => {
+  test('expect to return Robert C. Martin with 18 likes', () => {
     const result = listHelper.mostLikes(testHelper.blogs)
 
     expect(result).toEqual({
-      "author": "Edsger W. Dijkstra",
-      "likes": 17
+      "author": "Robert C. Martin",
+      "likes": 18
     })
   })
 })
