@@ -56,7 +56,7 @@ test('id property is not called _id', async () => {
   
   for (let blog of blogs) {
     expect(blog.id).toBeDefined()
-    expect(blog._id).toBe(undefined)
+    expect(blog._id).toBeUndefined()
   }
 })
 
@@ -74,8 +74,10 @@ test('likes default to 0 if missing from request', async () => {
   
   const blogs = await testHelper.blogsInDb()
 
-  expect(blogs).toHaveLength(testHelper.blogs.length + 1)
-  expect(blogs[blogs.length - 1].likes).toBe(0)
+  const notMissingLikes = blogs
+    .find(blog => blog.title === "Missing the likes!")
+
+  expect(notMissingLikes.likes).toBe(0)
 })
 
 describe('missing properties', () => {
