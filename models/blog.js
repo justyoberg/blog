@@ -5,11 +5,11 @@ const blogSchema = new mongoose.Schema({
     type: String,
     required: [true, "Missing title"],
   },
-  author: {
+  author: String,
+  url: {
     type: String,
-    required: [true, "Missing author"],
+    required: [true, "Missing URL"],
   },
-  url: String,
   likes: Number
 })
 
