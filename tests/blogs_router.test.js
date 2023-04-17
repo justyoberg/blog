@@ -147,6 +147,36 @@ describe('deletion of a blog', () => {
   })
 })
 
+describe('updating of a blog', () => {
+  test('succeeds if id is valid', async () => {
+    const blogs = await testHelper.blogsInDb()
+
+    const updatedBlog = {
+      ...blogs[0],
+      title: "Changed Author"
+    }
+
+    await api
+      .put(`/api/blogs/${blogs[0].id}`)
+      .send(updatedBlog)
+      .expect(204)
+
+    const blogsAtEnd = await testHelper.blogsInDb()
+
+    expect(blogs[0]).not.toEqual(blogsAtEnd[0])
+  })
+
+  test('fails with status code 400 if id is invalid', async () => {
+    const blogs = await testHelper.blogsInDb()
+    const id = "Not a Valid ID"
+    
+    await api
+      .put(`/api/blogs/${id}`)
+      .send(blogs[1])
+      .expect(400)
+  })
+})
+
 afterAll(async () => {
   await mongoose.connection.close()
 })
