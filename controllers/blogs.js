@@ -29,6 +29,7 @@ blogsRouter.post('/', userExtractor, async (request, response, next) => {
 
 blogsRouter.delete('/:id', userExtractor, async (request, response, next) => {
   const blog = await Blog.findById(request.params.id)
+  
   if (!blog) {
     response.status(404).json({
       error: 'blog with that id doesn`t exist'
@@ -36,7 +37,7 @@ blogsRouter.delete('/:id', userExtractor, async (request, response, next) => {
   }
 
   const user = request.user
-
+  
   if (blog.user.toString() === user.id.toString()){
     await Blog.deleteOne({ _id: request.params.id })
     response.status(204).end()

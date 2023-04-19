@@ -8,10 +8,7 @@ const userSchema = new mongoose.Schema({
     required: [true, "missing username"],
     unique: true,
   },
-  name: {
-    type: String,
-    required: [true, "missing name"],
-  },
+  name: String,
   passwordHash: String,
   blogs: [
     {
