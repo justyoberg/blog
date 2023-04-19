@@ -28,6 +28,38 @@ describe('creation of a user', () => {
       .expect('Content-Type', /application\/json/)
   })
 
+  test('fails with status code 400 if username is missing', async () => {
+    const user = {
+      name: "justy oberg",
+      password: "password"
+    }
+    
+    const response = await api
+      .post('/api/users')
+      .send(user)
+      .expect(400)
+  
+    expect(response.body.error).toContain(
+      'missing username'
+    )
+  })
+
+  test('fails with status code 400 if password is missing', async () => {
+    const user = {
+      username: "unique",
+      name: "justy oberg"
+    }
+    
+    const response = await api
+      .post('/api/users')
+      .send(user)
+      .expect(400)
+  
+    expect(response.body.error).toContain(
+      'password must be longer than 3 characters'
+    )
+  })
+
   test('fails with status code 400 if the user already exists', async () => {
     const user = testHelper.defaultUser
     
