@@ -10,6 +10,10 @@ const blogSchema = new mongoose.Schema({
     type: String,
     required: [true, "Missing URL"],
   },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
   likes: Number
 })
 
