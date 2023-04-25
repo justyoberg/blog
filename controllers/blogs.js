@@ -40,6 +40,8 @@ blogsRouter.delete('/:id', userExtractor, async (request, response, next) => {
   
   if (blog.user.toString() === user.id.toString()){
     await Blog.deleteOne({ _id: request.params.id })
+    user.blogs = await Blog.find({ user: user.id })
+    await user.save()
     response.status(204).end()
   } else {
     response.status(401).json({ error: 'blog doesn`t belong to logged in user'})
