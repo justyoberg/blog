@@ -230,10 +230,10 @@ describe('deletion of a blog', () => {
   })
 
   test('fails with status code 401 if not authorized', async () => {
-    const id = "Not a Valid ID"
+    const blogs = await testHelper.blogsInDb()
   
     await api
-      .delete(`/api/blogs/${id}`)
+      .delete(`/api/blogs/${blogs[0].id}`)
       .expect(401)
   })
 })
