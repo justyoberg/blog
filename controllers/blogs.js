@@ -49,7 +49,7 @@ blogsRouter.delete('/:id', userExtractor, async (request, response, next) => {
     await Blog.deleteOne({ _id: request.params.id })
     user.blogs = await Blog.find({ user: user.id })
     await user.save()
-    response.status(204).end()
+    response.status(200).json(blog)
   } else {
     response
       .status(401)
