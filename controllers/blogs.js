@@ -24,6 +24,7 @@ blogsRouter.post('/', userExtractor, async (request, response, next) => {
     title: body.title,
     author: body.author,
     url: body.url,
+    comments: [],
     user: user.id,
     likes: body.likes || 0,
   })
@@ -32,6 +33,22 @@ blogsRouter.post('/', userExtractor, async (request, response, next) => {
   user.blogs = user.blogs.concat(savedBlog)
   await user.save()
   response.status(201).json(savedBlog)
+})
+
+blogsRouter.put('/:id/comments', async (request, response) => {
+  const body = request.body
+
+  if (!body) {
+    response.status(404).json({
+      error: 'blog with that id doesn`t exist',
+    })
+  }
+
+  const blog = await Blog.findById(request.params.id)
+  blog.comments = body.comments
+  const updatedBlog = await blog.save()
+
+  response.status(201).json(updatedBlog)
 })
 
 blogsRouter.delete('/:id', userExtractor, async (request, response, next) => {
